@@ -33,6 +33,10 @@ function view(string $name, array $data = [], ?string $layout = 'layout'): strin
 
 /**
  * Рендерит представление БЕЗ лейаута (для API, email, partials)
+ *
+ * @param string $name
+ * @param array $data
+ * @return string
  */
 function partial(string $name, array $data = []): string {
     return view($name, $data, null);
