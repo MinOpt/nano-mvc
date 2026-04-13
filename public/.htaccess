@@ -1,0 +1,21 @@
+# Отключаем листинг директорий
+Options -Indexes
+
+# Включаем RewriteEngine
+RewriteEngine On
+
+# === ВАЖНО: Правильный RewriteBase ===
+# Если используете VirtualHost с DocumentRoot на public/
+RewriteBase /
+
+# Если НЕ используете VirtualHost и заходите через http://localhost/nano-mvc/public/
+# тогда раскомментируйте строку ниже и закомментируйте строку выше:
+# RewriteBase /nano-mvc/public
+
+# Если файл существует — отдаём его
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Всё остальное → index.php
+RewriteRule ^ index.php [QSA,L]
