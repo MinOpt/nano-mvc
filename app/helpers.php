@@ -1,6 +1,11 @@
 <?php
 /**
- * Рендерит представление с опциональным лейаутом
+ * Рендерит представление с автоматическим оборачиванием в layout
+ *
+ * @param string      $name    Имя файла в app/Views/ (без .php)
+ * @param array       $data    Переменные для шаблона
+ * @param string|null $layout  Имя layout-файла или null для чистого вывода
+ * @return string              Отрендеренный HTML
  */
 function view(string $name, array $data = [], ?string $layout = 'layout'): string
 {

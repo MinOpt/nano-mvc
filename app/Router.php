@@ -7,7 +7,12 @@ use App\Http\Response;
 class Router
 {
     private array $routes = [];
-
+    /**
+     * Регистрирует GET-маршрут
+     *
+     * @param string $path    Путь без начального слэша (например: '/about')
+     * @param string $handler Строка вида 'Controller@method'
+     */
     public function get(string $path, string $handler): void {
         $this->routes['GET'][$path] = $handler;
     }
@@ -15,7 +20,12 @@ class Router
     public function post(string $path, string $handler): void {
         $this->routes['POST'][$path] = $handler;
     }
-
+    /**
+     * Отправляет запрос нужному контроллеру
+     *
+     * @param Request $request Текущий HTTP-запрос
+     * @return Response        HTTP-ответ
+     */
     public function dispatch(Request $request): Response {
         $method = $request->getMethod();
         $path = $request->getPath();
