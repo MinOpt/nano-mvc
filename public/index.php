@@ -22,5 +22,10 @@ $router = new Router();
 require_once __DIR__ . '/../config/routes.php'; // Подключаем маршруты
 
 $request = Request::createFromGlobals();
+
+// 📝 Логируем каждый запрос
+log_request($request->getMethod(), $request->getPath());
+
+
 $response = $router->dispatch($request);
 $response->send();

@@ -41,3 +41,48 @@ function view(string $name, array $data = [], ?string $layout = 'layout'): strin
 function partial(string $name, array $data = []): string {
     return view($name, $data, null);
 }
+
+/**
+ * Логирует запрос в свой файл
+ */
+function log_request(string $method, string $path): void
+{
+    if ($path === '/favicon.ico') return;
+    $logFile = __DIR__ . '/../storage/logs/request.log';
+    $logDir  = dirname($logFile);
+
+    // Создаём папку автоматически, если её нет
+    if (!is_dir($logDir)) {
+        mkdir($logDir, 0755, true);
+    }
+
+    $timestamp = date('Y-m-d H:i:s');
+    $ip        = $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
+    $message   = "[$timestamp] $ip | $method $path" . PHP_EOL;
+
+    // 3 = дозапись в указанный файл
+    error_log($message, 3, $logFile);
+}
+
+/**
+ * Логирует переменную или массив в файл отладки
+ * 
+ * @param string $label Метка для поиска в логе
+ * @param mixed  $value Любая переменная, массив или объект
+ */
+function debug_log(string $label, mixed $value): void
+{
+    $logFile = __DIR__ . '/../storage/logs/debug.log';
+    $logDir  = dirname($logFile);
+
+    if (!is_dir($logDir)) {
+        mkdir($logDir, 0755, true);
+    }
+
+    $timestamp = date('Y-m-d H:i:s');
+    // print_r с true возвращает строку вместо вывода в экран
+    $dump = print_r($value, true);
+    $message = "[$timestamp] 🔍 $label\n$dump\n" . str_repeat('─', 50) . "\n";
+
+    error_log($message, 3, $logFile);
+}
