@@ -86,3 +86,13 @@ function debug_log(string $label, mixed $value): void
 
     error_log($message, 3, $logFile);
 }
+
+/**
+ * Возвращает 'active', если текущий путь совпадает с переданным
+ */
+function isActive(string $path): string
+{
+    // Используем ваш Request, чтобы корректно отрезать base_path (если проект в подпапке)
+    $current = \App\Http\Request::createFromGlobals()->getPath();
+    return rtrim($current, '/') === rtrim($path, '/') ? 'active' : '';
+}
