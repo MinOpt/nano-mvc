@@ -1,4 +1,6 @@
 /vendor/
+# Тестовые и отладочные скрипты
+/tests/
 composer.lock
 .env
 .vscode/
