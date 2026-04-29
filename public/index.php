@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-
+\App\Env::load(__DIR__ . '/../.env');
 // === ВКЛЮЧИТЬ ОТЛАДКУ ===
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
