@@ -1,22 +1,14 @@
 <?php
 declare(strict_types=1);
-\App\Env::load(__DIR__ . '/../.env');
-// === ВКЛЮЧИТЬ ОТЛАДКУ ===
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
-// =========================
-
 require_once __DIR__ . '/../vendor/autoload.php';
-// ... остальной код
+\App\Env::load(__DIR__ . '/../.env');
+
+// 2. Регистрируем умный обработчик ошибок (вместо 3 строк с ini_set)
+\App\Exceptions\Handler::register();
 
 use App\Http\Request;
 use App\Http\Response;
 use App\Router;
-
-// Базовая обработка ошибок
-set_exception_handler(fn($e) => Response::html("<pre>{$e}</pre>", 500)->send());
-set_error_handler(fn($errno, $errstr) => throw new ErrorException($errstr, 0, $errno));
 
 $router = new Router();
 require_once __DIR__ . '/../config/routes.php'; // Подключаем маршруты
