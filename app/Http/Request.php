@@ -4,7 +4,8 @@ namespace App\Http;
 class Request
 {
     private string $basePath;
-
+ // ✅ НОВОЕ: хранилище параметров маршрута ({id}, {slug} и т.д.)
+    private array $params = [];
     public function __construct() {
         $config = require __DIR__ . '/../../config/app.php';
         $this->basePath = rtrim($config['base_path'] ?? '', '/');
@@ -37,5 +38,31 @@ class Request
     public function url(string $path): string {
         $path = '/' . ltrim($path, '/');
         return $this->basePath . $path;
+    }
+    /**
+     * Устанавливает параметры из роутера (например, [0] => 42 из /user/42)
+     * @param array $params
+     */
+    public function setParams(array $params): void
+    {
+        $this->params = $params;
+    }
+
+    /**
+     * Получает параметр по индексу или имени
+     * @param int|string $key Индекс (0, 1...) или имя, если роутер передаёт ассоциативный массив
+     * @param mixed $default Значение по умолчанию
+     */
+    public function param(int|string $key, $default = null)
+    {
+        return $this->params[$key] ?? $default;
+    }
+
+    /**
+     * Все параметры маршрута
+     */
+    public function params(): array
+    {
+        return $this->params;
     }
 }
